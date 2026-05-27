@@ -1,5 +1,8 @@
+import json
+import os
+
 def add_word(dictionary, original, translation):
-    dictionary[f'{original}'] = translation
+    dictionary[original] = translation
     print("Слова добавлено!")
     return dictionary
 
@@ -11,8 +14,22 @@ def show_words(dictionary):
     for key, value in dictionary.items():
         print(f"|  {key} - {value}")
         
+
+def update_vocab(vocab):
+    with open("py-course-2/mini_projects/vocabluary.json", "w", encoding="utf-8") as file:
+        json.dump(vocab, file, ensure_ascii=False, indent=4)
         
-vocab = {}
+
+def read_vocab():
+    with open("py-course-2/mini_projects/vocabluary.json", "r", encoding="utf-8") as file:
+        return json.load(file)
+        
+
+
+if os.path.exists("py-course-2/mini_projects/vocabluary.json"):
+    vocab = read_vocab()
+else:
+    vocab = {}
         
 while True:
     print('      Menu')
@@ -29,12 +46,14 @@ while True:
     elif user_choice == "2":
         show_words(vocab)
     elif user_choice == '3':
+        print("Сохраняем...")
+        update_vocab(vocab=vocab)
         print("Выход из програмы...")
         break   
     else:
         print("Неверная команда!")
         
 
-# 1) оно возвращает значение, если не будет то функция автоматически вернет None
-# 2) в скобках при def мы обозначаем переменные с которыми будем работать в функцие, при визове ми "ложем" значение в функцию
-# 3) нет
+# 1) чтобы компютер мог понимать другие языки (символы)
+# 2) w - пишет заново, а - дополняет файл
+# 3) будет ошыбка FileNotFoundError
