@@ -1,8 +1,14 @@
 import json
 import os
+from datetime import datetime
 
 def add_word(dictionary, original, translation):
-    dictionary[original] = translation
+    now_date = datetime.now() 
+    dictionary[original] = {
+        "translation": translation,
+        "add_date": now_date.strftime("%d.%m.%Y %H:%M")
+    }
+    
     print("Слова добавлено!")
     return dictionary
 
@@ -12,7 +18,12 @@ def show_words(dictionary):
     print(f"      Словарь")
     print(f"Немецкий - Украинський")
     for key, value in dictionary.items():
-        print(f"|  {key} - {value}")
+        if isinstance(value, dict):
+            print(f"|  {key} - {value["translation"]}       {value["add_date"]}")
+        else:
+            print(f"|  {key} - {value}")
+
+                
         
 
 def update_vocab(vocab):
@@ -54,6 +65,5 @@ while True:
         print("Неверная команда!")
         
 
-# 1) чтобы компютер мог понимать другие языки (символы)
-# 2) w - пишет заново, а - дополняет файл
-# 3) будет ошыбка FileNotFoundError
+# 1) .strftime() или String Format Time нужен чтобы обьект модуля datetime сделать строку 
+# 2) Это будет другой код формата и собственно будет другое отображение
